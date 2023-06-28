@@ -1,0 +1,10 @@
+<launch>
+
+	<node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" respawn="true">
+		<rosparam command="load" file="$(find gsat)/config/navsat_param.yaml"/>
+		<remap from="/odometry/filtered" to="/odometry/filtered"/>
+		<remap from="/gps/fix" to="/ublox_gps/fix"/>
+		<remap from="/imu/data" to="/imu/data"/>
+	</node>
+
+</launch>

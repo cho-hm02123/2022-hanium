@@ -1,0 +1,10 @@
+navsat_transform:
+  frequency: 20
+  delay: 3.0
+  magnetic_declination_radians: 0.15376   #0.15376
+  yaw_offset: 1.570796     #pi/2 북쪽 기준을 동뽁 기준으로 바꾸기 위한 offset 1.570796
+  zero_altitude: true
+  broadcast_cartesian_transform: false
+  publish_filtered_gps: true #
+  use_odometry_yaw: false
+  wait_for_datum: false

@@ -1,0 +1,49 @@
+<launch>
+
+	<!--gsat URDF -->
+	<include file="$(find gsat_description)/launch/display.launch"/>
+
+	<!-- Start LiDar -->
+	<include file="$(find rplidar_ros)/launch/rplidar.launch" />
+	<!--include file="$(find gsat)/launch/laser_filtered.launch"/-->
+
+	<!-- Start IMU -->
+	<node pkg="myahrs_driver" type="myahrs_driver" name="myahrs_driver">
+	  <param name="port" value="/dev/ttyIMU" />
+	  <param name="baud_rate" value="11520" />
+	</node>
+	
+	<!-- Start GPS -->
+	<include file="$(find ntrip_ros)/launch/ntrip_ros.launch"/>
+
+	<!-- TF & Odom -->
+	<node pkg="gsat_tf" type="gsat_tf_publisher" name="gsat_tf_broadcaster" />
+	<node pkg="gsat_tf" type="gps_tf_publisher" name="gps_tf_publisher" />
+	<node pkg="gsat_tf" type="imu_tf_publisher" name="imu_tf_publisher" />
+	<node pkg="gsat_odom" type="gsat_odom_publisher" name="gsat_odom_publisher"/>
+
+	<!-- Run the EKF for odom to base -->
+	<include file="$(find gsat)/launch/ekf_local.launch"/>
+	
+	<!-- Run the EKF for map tp odom -->
+	<include file="$(find gsat)/launch/ekf_global.launch"/>
+	
+	<!-- fuse gps with navsat_transform-->
+	<include file="$(find gsat)/launch/start_navsat.launch"/>
+	
+	<!-- Run the map server -->
+        <arg name="map_file" default="$(find gsat)/maps/mymap_empty.yaml"/>
+        <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+        </node>
+
+	<!-- Run Move Base -->
+        <include file="$(find gsat)/launch/empty_map_move_base.launch"/>
+	
+	<!-- Start WayPoint -->
+	<!--include file="$(find follow_waypoints)/launch/follow_waypoints.launch"/-->
+
+</launch>
+
+
+
+	

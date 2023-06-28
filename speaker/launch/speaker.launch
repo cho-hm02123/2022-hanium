@@ -1,0 +1,4 @@
+<launch>
+	<node name="speaker" pkg="speaker" type="soundplay.py">
+	</node>
+</launch>

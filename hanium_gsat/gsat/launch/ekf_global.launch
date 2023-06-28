@@ -1,0 +1,7 @@
+<launch>
+
+	<node pkg="robot_localization" type="ekf_localization_node" name="map_to_odom">
+		<rosparam command="load" file="$(find gsat)/config/ekf_global.yaml"/>
+	</node>
+
+</launch>

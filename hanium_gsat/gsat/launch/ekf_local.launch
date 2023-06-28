@@ -1,0 +1,8 @@
+<launch>
+
+	<node pkg="robot_localization" type="ekf_localization_node" name="odom_to_base_link">
+		<rosparam command="load" file="$(find gsat)/config/ekf_local.yaml"/>
+		<remap from="/odometry/filtered" to="/odometry/filtered"/>
+	</node>
+	
+</launch>
